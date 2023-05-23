@@ -35,13 +35,13 @@ async function generateImages() {
     }
 
     await getNumber(imageId)
-    // await getNumberUpdate(imagePath)
+    // await getNumberUpdate(imageId)
 }
 
-async function getNumberUpdate(imagePath)
-{
-    setTimeout(await getNumber, 5000, imagePath)
-}
+// async function getNumberUpdate(imageId)
+// {
+//     setTimeout(await getNumber, 5000, imageId)
+// }
 
 async function getNumber(imageId)
 {
@@ -53,7 +53,7 @@ async function getNumber(imageId)
     number = await response.text()
     document.getElementById('value').innerText = number
 
-    // setTimeout(await getNumber, 5000, imagePath)
+    setTimeout(await getNumber, 30000, imageId)
 }
 
 async function increaseCount(imageId)
@@ -102,6 +102,6 @@ async function getImagePath(imageId)
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    generateImages()
+    return generateImages()
 });
 
