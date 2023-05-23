@@ -9,33 +9,33 @@ class IncreaseController implements ControllerInterface
     public function getContent(): string
     {
         try {
-            $imagePath = htmlspecialchars($_GET['imagePath']);
+            $imageId = (int)$_POST['imageId'];
 
             $client = $this->client;
             $client->beginTransaction();
 
             $query = '
             SELECT *
-            FROM visit
-            WHERE ip = :ip AND user_agent = :user_agent AND page_url = :page_url
+            FROM logs
+            WHERE ip_address = :ip_address AND user_agent = :user_agent AND image_id = :image_id
             FOR UPDATE
     ';
             $visitorConfig = $this->visitorConfig;
             (new QueryExecutor($client))->execute($query, [
-                'ip' => ip2long($visitorConfig->getIp()),
+                'ip_address' => ip2long($visitorConfig->getIp()),
                 'user_agent' => $visitorConfig->getUserAgent(),
-                'image_path' => $imagePath
+                'image_id' => $imageId
             ]);
 
             $query = '
-        INSERT INTO visit(ip, user_agent, image_path, view_date, views_count)
-        VALUE(:ip, :user_agent, :image_path, NOW(), 1)
+        INSERT INTO logs(ip_address, user_agent, image_id, view_date, views_count)
+        VALUE(:ip, :user_agent, :image_id, NOW(), 1)
         ON DUPLICATE KEY UPDATE view_date = NOW(), views_count = views_count + 1;
         ';
             (new QueryExecutor($client))->execute($query, [
                 'ip' => ip2long($visitorConfig->getIp()),
                 'user_agent' => $visitorConfig->getUserAgent(),
-                'image_path' => $imagePath
+                'image_id' => $imageId
             ]);
 
             $client->commit();

@@ -23,14 +23,18 @@ async function generateImages() {
         return
     }
 
+    if (isGetImagePathError) {
+        return
+    }
+
     document.getElementById('banner').src = imagePath
 
     try {
-        await increaseCount(imagePath)
+        await increaseCount(imageId)
     } catch (error) {
     }
 
-    await getNumberUpdate(imagePath)
+    // await getNumberUpdate(imagePath)
 }
 
 async function getNumberUpdate(imagePath)
@@ -41,7 +45,7 @@ async function getNumberUpdate(imagePath)
 async function getNumber(imagePath)
 {
     let number
-    const response = await fetch(String.format('/main.php?method={0}&imagePath={1}', 'number', imagePath))
+    const response = await fetch(String.format(`/main.php?method=number&imagePath=${imagePath}`, 'number', imagePath))
     if (response.status !== 200) {
         throw new Error('Unsuccessful getting of number')
     }
@@ -51,10 +55,16 @@ async function getNumber(imagePath)
     setTimeout(await getNumber, 5000, imagePath)
 }
 
-async function increaseCount(imagePath)
+async function increaseCount(imageId)
 {
     let count
-    const response = await fetch(String.format('/main.php?method={0}&imagePath={1}', 'increase', imagePath))
+    const response = await fetch(`/main.php`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+        },
+        body: `method=increase&imageId=${imageId}`
+    })
     if (response.status !== 200) {
         throw new Error('Unsuccessful getting of increased count')
     }

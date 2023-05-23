@@ -15,7 +15,7 @@ $visitorConfig = VisitorConfig::createFromEnv();
 
 $client = new PDO(sprintf('%s:host=%s;dbname=%s', $config->getDatabaseType(), $config->getDatabaseHost(), $config->getDatabaseName()), $config->getDatabaseUser(), $config->getDatabasePassword());
 
-$method = ucfirst(htmlspecialchars($_GET['method']));
+$method = ucfirst(htmlspecialchars($_REQUEST['method']));
 $controllerName = $method . 'Controller';
 
 /**
