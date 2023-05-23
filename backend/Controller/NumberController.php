@@ -9,22 +9,22 @@ final class NumberController implements ControllerInterface
 
     public function getContent(): string
     {
-        $imagePath = htmlspecialchars($_GET['imagePath']);
+        $imageId = (int)$_GET['imageId'];
 
         $client = $this->client;
-
         $query = '
-        SELECT *
-        FROM visit
-        WHERE ip = :ip AND user_agent = :user_agent AND page_url = :page_url
+        SELECT views_count
+        FROM logs
+        WHERE ip_address = :ip_address AND user_agent = :user_agent AND image_id = :image_id
 ';
         $visitorConfig = $this->visitorConfig;
         $preparedStatement = (new QueryExecutor($client))->execute($query, [
-            'ip' => ip2long($visitorConfig->getIp()),
+            'ip_address' => ip2long($visitorConfig->getIp()),
             'user_agent' => $visitorConfig->getUserAgent(),
-            'image_path' => $imagePath
+            'image_id' => $imageId
         ]);
         $row = $preparedStatement->fetch();
-        return $row['views_count'];
+
+        return (string)$row['views_count'];
     }
 }

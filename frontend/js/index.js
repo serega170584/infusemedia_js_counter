@@ -34,6 +34,7 @@ async function generateImages() {
     } catch (error) {
     }
 
+    await getNumber(imageId)
     // await getNumberUpdate(imagePath)
 }
 
@@ -42,17 +43,17 @@ async function getNumberUpdate(imagePath)
     setTimeout(await getNumber, 5000, imagePath)
 }
 
-async function getNumber(imagePath)
+async function getNumber(imageId)
 {
     let number
-    const response = await fetch(String.format(`/main.php?method=number&imagePath=${imagePath}`, 'number', imagePath))
+    const response = await fetch(`/main.php?method=number&imageId=${imageId}`)
     if (response.status !== 200) {
         throw new Error('Unsuccessful getting of number')
     }
     number = await response.text()
     document.getElementById('value').innerText = number
 
-    setTimeout(await getNumber, 5000, imagePath)
+    // setTimeout(await getNumber, 5000, imagePath)
 }
 
 async function increaseCount(imageId)
