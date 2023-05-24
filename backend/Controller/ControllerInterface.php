@@ -3,5 +3,5 @@ declare(strict_types=1);
 
 interface ControllerInterface
 {
-    public function getContent();
+    public function getContent(): string;
 }
