@@ -22,3 +22,7 @@ infusemedia counter
 - Visit pages http://localhost:3100/index.html and we can see view_count changes in table logs.
 
 - We can see directories js, src, index.html inside frontend directory. main.php and dump.sql with other code files inside backend directory.
+
+- We can also delete stop docker compose
+
+        docker-compose down
