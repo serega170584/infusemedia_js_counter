@@ -23,6 +23,6 @@ infusemedia counter
 
 - We can see directories js, src, index.html inside frontend directory. main.php and dump.sql with other code files inside backend directory.
 
-- We can also delete stop docker compose
+- We can also stop docker compose
 
         docker-compose down
